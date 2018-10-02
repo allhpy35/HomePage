@@ -22,5 +22,10 @@
         android:layout_height="wrap_content"
         android:text="Call"
         android:id="@+id/btnCall"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SMS"
+        android:id="@+id/SMS"/>
 
 </LinearLayout>

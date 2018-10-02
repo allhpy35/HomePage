@@ -9,8 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    protected Button btnHomepage;
-
+    protected Button btnHomepage, btnDial, btnCall;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +17,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+        btnDial = (Button)findViewById(R.id.btnDial);
+        btnDial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:01026530933"));
+                startActivity(intent);
+            }
+        });
         btnHomepage = (Button)findViewById(R.id.btnHomePage);
         btnHomepage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -27,6 +34,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        btnCall= (Button)findViewById(R.id.btnCall);
+        btnCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tell:0428297670"));
+                startActivity(intent);
+            }
+        });
     }
 }

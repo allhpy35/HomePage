@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.support.v7.widget.ViewUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    protected Button btnHomepage, btnDial, btnCall, SMS, Map;
+    protected Button btnHomepage, btnDial, btnCall, SMS, Map, Voice;
+    TextView TextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:s36.321609,127.337957?z=20"));
                 startActivity(intent);
+
+            }
+        });
+        TextView = (TextView)findViewById(R.id.TextView);
+
+        Voice=(Button)findViewById(R.id.Voice);
+        Voice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
             }
         });

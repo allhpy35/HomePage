@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    protected Button btnHomepage, btnDial, btnCall, SMS;
+    protected Button btnHomepage, btnDial, btnCall, SMS, Map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +50,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:0428297670"));
                 startActivity(intent);
+            }
+        });
+
+
+        Map =(Button)findViewById(R.id.Map);
+        Map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:s36.321609,127.337957?z=20"));
+                startActivity(intent);
+
             }
         });
     }

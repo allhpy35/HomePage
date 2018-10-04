@@ -27,5 +27,10 @@
         android:layout_height="wrap_content"
         android:text="SMS"
         android:id="@+id/SMS"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Map"
+        android:id="@+id/Map"/>
 
 </LinearLayout>

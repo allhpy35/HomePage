@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
             @Override
             public void onClick(View view) {
                 String str = etTTs.getText().toString();
-                tts.speak(str, TextToSpeech.QUEUE_FLUSH,  null, null);          //Flush 물이 쭉내려가는것 문자를 소리로 변해주는것이 QUEUE_FLUSH
+                tts.speak(str, TextToSpeech.QUEUE_FLUSH,  null, null);          //Flush 물이 쭉내려가는것 문자를 소리로 변해주는것이 QUEUE_FLUSH , 이오류는 tts를 지원하지않는 api 버전이 다르면 실행을 안해야하는데 Android 에서 이것을 자동생성하라는 오류이다
             }
         });
         tts = new TextToSpeech(this, this);
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
     @Override
     public void onInit(int i) {
-        if(i == TextToSpeech.SUCCESS){
+        if(i == TextToSpeech.SUCCESS){                      //
             tts.setLanguage(Locale.KOREAN);
             tts.setPitch(1.0f);         //기본값으로 체크한다
             tts.setSpeechRate(1.0f);    //기본값으로 체크한다

@@ -52,5 +52,15 @@
     android:layout_height="wrap_content"
     android:id="@+id/VoiceRecord"/>
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTTS"
+        android:text="TTS string"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/TTS"/>
 
 </LinearLayout>

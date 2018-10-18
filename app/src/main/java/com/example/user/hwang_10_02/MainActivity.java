@@ -18,7 +18,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {              //초기화를 하고 앞으로
     protected Button btnHomepage, btnDial, btnCall, SMS, Map, Voice, Gps, Record, TTSBtn;
     protected TextView TextView, VoiceRecord;
     protected EditText etTTs;
@@ -94,8 +94,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String str = etTTs.getText().toString();
+                tts.speak(str, TextToSpeech.QUEUE_FLUSH,  null, null);          //Flush 물이 쭉내려가는것 문자를 소리로 변해주는것이 QUEUE_FLUSH
             }
         });
+        tts = new TextToSpeech(this, this);
     }
 
     private void voiceRecog() {
@@ -118,6 +120,17 @@ public class MainActivity extends AppCompatActivity {
                 String sRecg = arList.get(0);
                 VoiceRecord.setText(sRecg);
             }
+        }
+    }
+
+
+
+    @Override
+    public void onInit(int i) {
+        if(i == TextToSpeech.SUCCESS){
+            tts.setLanguage(Locale.KOREAN);
+            tts.setPitch(1.0f);         //기본값으로 체크한다
+            tts.setSpeechRate(1.0f);    //기본값으로 체크한다
         }
     }
 }

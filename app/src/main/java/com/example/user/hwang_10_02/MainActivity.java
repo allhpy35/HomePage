@@ -107,17 +107,8 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         EcoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              // EcoRecog(CODE_ECORECO);
+
                 voiceRecog(CODE_ECORECO);
-
-               new Handler().postDelayed(new Runnable() {
-                   @Override
-                   public void run() {
-                       String str = EcoEdText.getText().toString();
-                       tts.speak(str, TextToSpeech.QUEUE_FLUSH,  null, null);
-
-                   }
-               },2000);
 
 
             }
@@ -136,6 +127,17 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         //음서인식된 결과를 String에 저장할수없다
         //안드로이드는 게속움직이기때문에 startActivity가 지원한다
     }
+    private void speakStr(String str){
+        tts.speak(str, TextToSpeech.QUEUE_FLUSH,  null, null);
+        while(tts.isSpeaking()){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        };
+
+    }
 
     //오버라이드란 framework에서 제공하는 기능을 내가 가져와서 쓰겠다 @Nullable
     @Override
@@ -144,14 +146,17 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         if(resultCode == Activity.RESULT_OK && data != null){
             if(requestCode == CODE_RECOG){
                 ArrayList<String> arList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS); //리스트는 꼬리에꼬리를 물고 데이터를 저장하는것 <> 는 A데이터 타입을 String 으로하겠다  Intent정보를 풀어서 가져옴
-                String sRecg = arList.get(0);
-                VoiceRecord.setText(sRecg);
+                String str = arList.get(0);
+                VoiceRecord.setText(str);
             }
             else if(requestCode == CODE_ECORECO){
                 ArrayList<String> arList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS); //리스트는 꼬리에꼬리를 물고 데이터를 저장하는것 <> 는 A데이터 타입을 String 으로하겠다  Intent정보를 풀어서 가져옴
                 String sRecg = arList.get(0);
+                String sDelay = EcoEdText.getText().toString();
+                int nDelay = Integer.parseInt(sDelay);          //int sec
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(nDelay*1000);
+                    speakStr(EcoEdText.getText().toString());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

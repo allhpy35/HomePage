@@ -63,4 +63,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/TTS"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Eco"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/EcoEdText"
+        android:text="5"/>
+
 </LinearLayout>

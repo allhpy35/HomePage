@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
@@ -19,11 +20,11 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {              //초기화를 하고 앞으로
-    protected Button btnHomepage, btnDial, btnCall, SMS, Map, Voice, Gps, Record, TTSBtn;
+    protected Button btnHomepage, btnDial, btnCall, SMS, Map, Voice, Gps, Record, TTSBtn, EcoBtn;
     protected TextView TextView, VoiceRecord;
-    protected EditText etTTs;
+    protected EditText etTTs, EcoEdText;
     protected TextToSpeech tts;
-    private static int CODE_RECOG = 1234;
+    private static final int CODE_RECOG = 1234, CODE_ECORECO = 4321;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,9 +86,10 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         Record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                voiceRecog();
+                voiceRecog(CODE_RECOG);
             }
         });
+
         etTTs = (EditText)findViewById(R.id.editTTS);
         TTSBtn = (Button)findViewById(R.id.TTS);
         TTSBtn.setOnClickListener(new View.OnClickListener() {
@@ -98,14 +100,39 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
             }
         });
         tts = new TextToSpeech(this, this);
+
+
+        EcoBtn = (Button)findViewById(R.id.Eco);
+
+        EcoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              // EcoRecog(CODE_ECORECO);
+                voiceRecog(CODE_ECORECO);
+
+               new Handler().postDelayed(new Runnable() {
+                   @Override
+                   public void run() {
+                       String str = EcoEdText.getText().toString();
+                       tts.speak(str, TextToSpeech.QUEUE_FLUSH,  null, null);
+
+                   }
+               },2000);
+
+
+            }
+        });
+
+        EcoEdText = (EditText) findViewById(R.id.EcoEdText);
+
     }
 
-    private void voiceRecog() {
+    private void voiceRecog(int nCode) {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);                                       //웹쪽으로 다양하게 할수도있다 이거랑 두가지 버전이있다
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);      //스마트폰에있는걸 이용해서 좀더 정확한 음성인식을 하기 위해 설정하였다
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.KOREAN);                                            //local은 한국의문화를 의미 한국의 표현방법대로 할것이고 한국어를지원할것이다
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "please tell me about!");
-        startActivityForResult(intent, CODE_RECOG);      // 비밀번호설정                                                            //forResult 를실행하면 음성인식이 뜬다
+        startActivityForResult(intent, nCode);      // 비밀번호설정                                                            //forResult 를실행하면 음성인식이 뜬다
         //음서인식된 결과를 String에 저장할수없다
         //안드로이드는 게속움직이기때문에 startActivity가 지원한다
     }
@@ -114,11 +141,32 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {                     //여기에서 결과를 받는것이다
         super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == Activity.RESULT_OK && data != null){
+            if(requestCode == CODE_RECOG){
+                ArrayList<String> arList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS); //리스트는 꼬리에꼬리를 물고 데이터를 저장하는것 <> 는 A데이터 타입을 String 으로하겠다  Intent정보를 풀어서 가져옴
+                String sRecg = arList.get(0);
+                VoiceRecord.setText(sRecg);
+            }
+            else if(requestCode == CODE_ECORECO){
+                ArrayList<String> arList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS); //리스트는 꼬리에꼬리를 물고 데이터를 저장하는것 <> 는 A데이터 타입을 String 으로하겠다  Intent정보를 풀어서 가져옴
+                String sRecg = arList.get(0);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+
+
         if (requestCode == CODE_RECOG) {                                                                     //내가 실행한 activity 번호와 코드값을 비교해야한다
             if (resultCode == Activity.RESULT_OK && data != null) {
                 ArrayList<String> arList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS); //리스트는 꼬리에꼬리를 물고 데이터를 저장하는것 <> 는 A데이터 타입을 String 으로하겠다  Intent정보를 풀어서 가져옴
                 String sRecg = arList.get(0);
                 VoiceRecord.setText(sRecg);
+
+                EcoEdText.setText(sRecg);
             }
         }
     }
@@ -133,4 +181,17 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
             tts.setSpeechRate(1.0f);    //기본값으로 체크한다
         }
     }
+
+    protected void EcoRecog() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);                                       //웹쪽으로 다양하게 할수도있다 이거랑 두가지 버전이있다
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);      //스마트폰에있는걸 이용해서 좀더 정확한 음성인식을 하기 위해 설정하였다
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.KOREAN);                                            //local은 한국의문화를 의미 한국의 표현방법대로 할것이고 한국어를지원할것이다
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "please tell me about!");
+        startActivityForResult(intent, CODE_RECOG);      // 비밀번호설정
+
+    }
+
+
+
+
 }

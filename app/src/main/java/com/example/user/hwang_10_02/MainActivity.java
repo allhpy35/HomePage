@@ -23,11 +23,11 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {              //초기화를 하고 앞으로
-    protected Button btnHomepage, btnDial, btnCall, SMS, Map,  Gps, Record, TTSBtn, EcoBtn, BtnContact;
+    protected Button btnHomepage, btnDial, btnCall, SMS, Map,  Gps, Record, TTSBtn, EcoBtn, BtnContact, Voice_Calling;
     protected TextView TextView, VoiceRecord;
     protected EditText etTTs, EcoEdText;
     protected TextToSpeech tts;
-    private static final int CODE_RECOG = 1234, CODE_ECORECO = 4321, CODE_CONTACT = 1243;
+    private static final int CODE_RECOG = 1234, CODE_ECORECO = 4321, CODE_CONTACT = 1243, CODE_Voice_Calling = 5656;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +134,23 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
             }
         });
 
+
+
+        Voice_Calling = (Button)findViewById(R.id.Voice_Calling);
+        Voice_Calling.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String hello = "명령을 말하세요";
+                speakStr(hello);
+
+                voiceRecog(CODE_Voice_Calling);
+
+            }
+        });
+
+
+
+
     }
 
     private void voiceRecog(int nCode) {
@@ -214,6 +231,9 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
                }
 
             }
+            else if(requestCode == CODE_Voice_Calling){
+
+            }
         }
 
 
@@ -243,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 /*
         if (requestCode == CODE_RECOG) {                                                                     //내가 실행한 activity 번호와 코드값을 비교해야한다
             if (resultCode == Activity.RESULT_OK && data != null) {
-                ArrayList<String> arList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS); //리스트는 꼬리에꼬리를 물고 데이터를 저장하는것 <> 는 A데이터 타입을 String 으로하겠다  Intent정보를 풀어서 가져옴
+                ArrayList<String> arList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS); //리스트는 꼬리에꼬리를 물고 데이터를 저장하는것 <> 는 데이터 타입을 String 으로하겠다  Intent정보를 풀어서 가져옴
                 String sRecg = arList.get(0);
                 VoiceRecord.setText(sRecg);
 

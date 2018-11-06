@@ -6,6 +6,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,6 +31,11 @@
         android:layout_height="wrap_content"
         android:text="SMS"
         android:id="@+id/SMS"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,6 +56,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/Record"
         android:text="Record"/>
+    </LinearLayout>
     <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -74,12 +84,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/EcoEdText"
-        android:text="5"/>
+        android:text="2"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="BtnContact"
         android:id="@+id/BtnContact"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Voice_Calling"
+        android:text="Voice_Calling"/>
 
 </LinearLayout>

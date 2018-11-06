@@ -156,6 +156,27 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
     }
 
+    private String getPhoneNumFromName(String sName){
+        String sPhoneNum = "";
+        Uri uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_FILTER_URI, Uri.encode("정통이"));    //withAppendedPath 이것으로 강제로 URi 생성
+        String[] arProjection = new String[]{ContactsContract.Contacts._ID};                                        //Filter, ID는 row값이다
+        Cursor cursor = getContentResolver().query(uri, arProjection, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            String sId = cursor.getString(0);
+            String[] arProjNum = new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER};
+            String sWhereNum = ContactsContract.Data.MIMETYPE + " = ? AND " + ContactsContract.CommonDataKinds.StructuredName.CONTACT_ID + " = ?";
+            String[] sWhereNumParam = new String[]{ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE, sId};
+            Cursor cursorNum = getContentResolver().query(ContactsContract.Data.CONTENT_URI, arProjNum, sWhereNum, sWhereNumParam, null);
+            if (cursorNum != null && cursorNum.moveToFirst()) {
+                sPhoneNum = cursorNum.getString(0);
+            }
+            cursorNum.close();
+        }
+        cursor.close();
+        return sPhoneNum;
+
+    }
+
     //오버라이드란 framework에서 제공하는 기능을 내가 가져와서 쓰겠다 @Nullable
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {                     //여기에서 결과를 받는것이다
@@ -164,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
             if(requestCode == CODE_RECOG){
                 ArrayList<String> arList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS); //리스트는 꼬리에꼬리를 물고 데이터를 저장하는것 <> 는 A데이터 타입을 String 으로하겠다  Intent정보를 풀어서 가져옴
                 String str = arList.get(0);
-                etTTs.setText(str);
+                VoiceRecord.setText(str);
             }
             else if(requestCode == CODE_ECORECO){
                 ArrayList<String> arList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS); //리스트는 꼬리에꼬리를 물고 데이터를 저장하는것 <> 는 A데이터 타입을 String 으로하겠다  Intent정보를 풀어서 가져옴
@@ -180,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
             }
             else if(requestCode == CODE_CONTACT){
-                String[] sFilter = {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                String[] sFilter = new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
                 ContactsContract.CommonDataKinds.Phone.NUMBER};
                Cursor cursor = getContentResolver().query(data.getData(), sFilter, null, null, null, null);        //여기에서 연락처의 정보를 받아온다 현재 필요한것은 이름과 번호이다
                if(cursor != null){
@@ -196,22 +217,11 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         }
 
 
-        if (requestCode == CODE_RECOG) {                                                                     //내가 실행한 activity 번호와 코드값을 비교해야한다
-            if (resultCode == Activity.RESULT_OK && data != null) {
-                ArrayList<String> arList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS); //리스트는 꼬리에꼬리를 물고 데이터를 저장하는것 <> 는 A데이터 타입을 String 으로하겠다  Intent정보를 풀어서 가져옴
-                String sRecg = arList.get(0);
-                VoiceRecord.setText(sRecg);
-
-                EcoEdText.setText(sRecg);
-            }
-        }
     }
 
-
-
     @Override
-    public void onInit(int i) {
-        if(i == TextToSpeech.SUCCESS){                      //
+    public void onInit(int state) {
+        if(state == TextToSpeech.SUCCESS){
             tts.setLanguage(Locale.KOREAN);
             tts.setPitch(1.0f);         //기본값으로 체크한다
             tts.setSpeechRate(1.0f);    //기본값으로 체크한다
@@ -224,3 +234,19 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
 
 }
+
+
+
+
+
+
+/*
+        if (requestCode == CODE_RECOG) {                                                                     //내가 실행한 activity 번호와 코드값을 비교해야한다
+            if (resultCode == Activity.RESULT_OK && data != null) {
+                ArrayList<String> arList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS); //리스트는 꼬리에꼬리를 물고 데이터를 저장하는것 <> 는 A데이터 타입을 String 으로하겠다  Intent정보를 풀어서 가져옴
+                String sRecg = arList.get(0);
+                VoiceRecord.setText(sRecg);
+
+                EcoEdText.setText(sRecg);
+            }
+        } */

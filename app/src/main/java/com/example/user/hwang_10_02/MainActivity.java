@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {              //초기화를 하고 앞으로
-    protected Button btnHomepage, btnDial, btnCall, SMS, Map, Voice, Gps, Record, TTSBtn, EcoBtn, BtnContact;
+    protected Button btnHomepage, btnDial, btnCall, SMS, Map,  Gps, Record, TTSBtn, EcoBtn, BtnContact;
     protected TextView TextView, VoiceRecord;
     protected EditText etTTs, EcoEdText;
     protected TextToSpeech tts;
@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:0428297670"));
+                intent.putExtra("sms_body", "Mokwon University");
                 startActivity(intent);
             }
         });
@@ -194,11 +195,10 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
                 int nDelay = Integer.parseInt(sDelay);          //int sec
                 try {
                     Thread.sleep(nDelay*1000);
-                    speakStr(EcoEdText.getText().toString());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
+                speakStr(sRecg);
             }
             else if(requestCode == CODE_CONTACT){
                 String[] sFilter = new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,

@@ -3,8 +3,10 @@ package com.example.user.hwang_10_02;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
@@ -15,16 +17,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {              //초기화를 하고 앞으로
-    protected Button btnHomepage, btnDial, btnCall, SMS, Map, Voice, Gps, Record, TTSBtn, EcoBtn;
+    protected Button btnHomepage, btnDial, btnCall, SMS, Map, Voice, Gps, Record, TTSBtn, EcoBtn, BtnContact;
     protected TextView TextView, VoiceRecord;
     protected EditText etTTs, EcoEdText;
     protected TextToSpeech tts;
-    private static final int CODE_RECOG = 1234, CODE_ECORECO = 4321;
+    private static final int CODE_RECOG = 1234, CODE_ECORECO = 4321, CODE_CONTACT = 1243;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +120,19 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
         EcoEdText = (EditText) findViewById(R.id.EcoEdText);
 
+
+
+        BtnContact = (Button)findViewById(R.id.BtnContact);
+
+        BtnContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setData(ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+                startActivityForResult(intent, CODE_CONTACT);
+            }
+        });
+
     }
 
     private void voiceRecog(int nCode) {
@@ -163,6 +179,20 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
                 }
 
             }
+            else if(requestCode == CODE_CONTACT){
+                String[] sFilter = {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                ContactsContract.CommonDataKinds.Phone.NUMBER};
+               Cursor cursor = getContentResolver().query(data.getData(), sFilter, null, null, null, null);        //여기에서 연락처의 정보를 받아온다 현재 필요한것은 이름과 번호이다
+               if(cursor != null){
+                   cursor.moveToFirst();
+                   String sName = cursor.getString(0);
+                   String sPhoneNum = cursor.getString(1);
+                   cursor.close();
+
+                   Toast.makeText(this, sName + " = " + sPhoneNum , Toast.LENGTH_SHORT).show();
+               }
+
+            }
         }
 
 
@@ -188,14 +218,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         }
     }
 
-    protected void EcoRecog() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);                                       //웹쪽으로 다양하게 할수도있다 이거랑 두가지 버전이있다
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);      //스마트폰에있는걸 이용해서 좀더 정확한 음성인식을 하기 위해 설정하였다
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.KOREAN);                                            //local은 한국의문화를 의미 한국의 표현방법대로 할것이고 한국어를지원할것이다
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "please tell me about!");
-        startActivityForResult(intent, CODE_RECOG);      // 비밀번호설정
 
-    }
 
 
 

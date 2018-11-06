@@ -76,4 +76,10 @@
         android:id="@+id/EcoEdText"
         android:text="5"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BtnContact"
+        android:id="@+id/BtnContact"/>
+
 </LinearLayout>

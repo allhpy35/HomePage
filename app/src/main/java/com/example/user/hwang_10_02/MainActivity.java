@@ -31,6 +31,14 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        btnHomepage = (Button) findViewById(R.id.btnHomePage);
+        btnHomepage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://ice.mokwon.ac.kr"));
+                startActivity(intent);
+            }
+        });
 
         btnDial = (Button) findViewById(R.id.btnDial);
         btnDial.setOnClickListener(new View.OnClickListener() {
@@ -41,14 +49,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
                 startActivity(intent);
             }
         });
-        btnHomepage = (Button) findViewById(R.id.btnHomePage);
-        btnHomepage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://ice.mokwon.ac.kr"));
-                startActivity(intent);
-            }
-        });
+
 
         btnCall = (Button) findViewById(R.id.btnCall);
         btnCall.setOnClickListener(new View.OnClickListener() {
@@ -147,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
             if(requestCode == CODE_RECOG){
                 ArrayList<String> arList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS); //리스트는 꼬리에꼬리를 물고 데이터를 저장하는것 <> 는 A데이터 타입을 String 으로하겠다  Intent정보를 풀어서 가져옴
                 String str = arList.get(0);
-                VoiceRecord.setText(str);
+                etTTs.setText(str);
             }
             else if(requestCode == CODE_ECORECO){
                 ArrayList<String> arList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS); //리스트는 꼬리에꼬리를 물고 데이터를 저장하는것 <> 는 A데이터 타입을 String 으로하겠다  Intent정보를 풀어서 가져옴

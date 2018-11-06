@@ -61,11 +61,13 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="TTS"
         android:id="@+id/TTS"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Eco"
         android:id="@+id/Eco"/>
 
     <EditText

@@ -16,6 +16,7 @@ import android.support.v7.widget.ViewUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,11 +24,13 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {              //초기화를 하고 앞으로
-    protected Button btnHomepage, btnDial, btnCall, SMS, Map,  Gps, Record, TTSBtn, EcoBtn, BtnContact, Voice_Calling;
+    protected Button btnHomepage, btnDial, btnCall, SMS, Map, Record, TTSBtn, EcoBtn, BtnContact, Voice_Calling, ImageBtn;
     protected TextView TextView, VoiceRecord;
     protected EditText etTTs, EcoEdText;
     protected TextToSpeech tts;
     private static final int CODE_RECOG = 1234, CODE_ECORECO = 4321, CODE_CONTACT = 1243, CODE_Voice_Calling = 5656;
+    public ImageView BitMap;
+    protected  String pass = "*";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tell:0428297670"));
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("0428297670"));
                 startActivity(intent);
             }
         });
@@ -147,6 +150,19 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
             }
         });
+
+
+
+        BitMap = (ImageView)findViewById(R.id.Image);
+        ImageBtn = (Button)findViewById(R.id.ImageBtn);
+        ImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new BitMapRunable(BitMap)).start();
+
+            }
+        });
+
 
 
 
@@ -256,17 +272,3 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 }
 
 
-
-
-
-
-/*
-        if (requestCode == CODE_RECOG) {                                                                     //내가 실행한 activity 번호와 코드값을 비교해야한다
-            if (resultCode == Activity.RESULT_OK && data != null) {
-                ArrayList<String> arList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS); //리스트는 꼬리에꼬리를 물고 데이터를 저장하는것 <> 는 데이터 타입을 String 으로하겠다  Intent정보를 풀어서 가져옴
-                String sRecg = arList.get(0);
-                VoiceRecord.setText(sRecg);
-
-                EcoEdText.setText(sRecg);
-            }
-        } */

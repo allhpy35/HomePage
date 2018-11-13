@@ -98,4 +98,17 @@
         android:id="@+id/Voice_Calling"
         android:text="Voice_Calling"/>
 
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Image"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ImageBtn"
+        android:text="BitMap 버튼"/>
 </LinearLayout>

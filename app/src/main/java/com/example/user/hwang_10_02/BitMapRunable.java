@@ -5,12 +5,12 @@ import android.widget.ImageView;
 public class BitMapRunable implements Runnable {
 
     protected ImageView ImageBitMap;
-    protected  String BitMapPass;
+    protected  String sBitmapUrI;
 
 
-    public Runnable(ImageView BitMap, String BitMapPass) {
+    public BitMapRunable(ImageView BitMap, String sBitmapUrI) {
             this.ImageBitMap = BitMap;
-            this.BitMapPass = BitMapPass;
+            this.sBitmapUrI = sBitmapUrI;
         }
 
     @Override

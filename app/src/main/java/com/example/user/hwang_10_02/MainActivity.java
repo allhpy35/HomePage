@@ -24,13 +24,13 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {              //초기화를 하고 앞으로
-    protected Button btnHomepage, btnDial, btnCall, SMS, Map, Record, TTSBtn, EcoBtn, BtnContact, Voice_Calling, ImageBtn;
+    protected Button btnHomepage, btnDial, btnCall, SMS, Map, Record, TTSBtn, EcoBtn, BtnContact, Voice_Calling, BtBitMap;
     protected TextView TextView, VoiceRecord;
     protected EditText etTTs, EcoEdText;
     protected TextToSpeech tts;
     private static final int CODE_RECOG = 1234, CODE_ECORECO = 4321, CODE_CONTACT = 1243, CODE_Voice_Calling = 5656;
-    public ImageView BitMap;
-    protected  String pass = "*";
+    public ImageView IvBitMap;
+    protected  String sBitmapUrI = "https://sites.google.com/site/yongheuicho/_/rsrc/1313446792839/config/customLogo.gif?revision=1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,12 +153,12 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
 
 
-        BitMap = (ImageView)findViewById(R.id.Image);
-        ImageBtn = (Button)findViewById(R.id.ImageBtn);
-        ImageBtn.setOnClickListener(new View.OnClickListener() {
+        IvBitMap = (ImageView)findViewById(R.id.IvBitMap);
+        BtBitMap = (Button)findViewById(R.id.BtBitMap);
+        BtBitMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Thread(new BitMapRunable(BitMap)).start();
+                new Thread(new BitMapRunable(IvBitMap, sBitmapUrI)).start();
 
             }
         });

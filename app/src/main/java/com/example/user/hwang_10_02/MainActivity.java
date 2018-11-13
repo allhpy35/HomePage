@@ -25,12 +25,12 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {              //초기화를 하고 앞으로
     protected Button btnHomepage, btnDial, btnCall, SMS, Map, Record, TTSBtn, EcoBtn, BtnContact, Voice_Calling, BtBitMap;
-    protected TextView TextView, VoiceRecord;
+    protected TextView TextView, VoiceRecord, TextVoice;
     protected EditText etTTs, EcoEdText;
     protected TextToSpeech tts;
-    private static final int CODE_RECOG = 1234, CODE_ECORECO = 4321, CODE_CONTACT = 1243, CODE_Voice_Calling = 5656;
+    private static final int CODE_RECOG = 1234, CODE_ECORECO = 4321, CODE_CONTACT = 1243, CODE_Voice_Calling = 5656, CODE_Voice_Calling1 = 1111, CODE_Voice_Calling2 = 2222, CODE_Voice_Calling3 = 333;
     public ImageView IvBitMap;
-    protected  String sBitmapUrI = "https://sites.google.com/site/yongheuicho/_/rsrc/1313446792839/config/customLogo.gif?revision=1";
+    protected  String sBitmapUrI = "https://sites.google.com/site/yongheuicho/_/rsrc/1313446792839/config/customLogo.gif?revision=1" , Name =" ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +61,8 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("0428297670"));
-                startActivity(intent);
+           //     Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:01026530933"));
+           //     startActivity(intent);
             }
         });
 
@@ -137,13 +137,13 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
             }
         });
 
-
+        TextVoice = (TextView)findViewById(R.id.TextVoice);
 
         Voice_Calling = (Button)findViewById(R.id.Voice_Calling);
         Voice_Calling.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String hello = "명령을 말하세요";
+                String hello = TextVoice.getText().toString();
                 speakStr(hello);
 
                 voiceRecog(CODE_Voice_Calling);
@@ -248,7 +248,40 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
             }
             else if(requestCode == CODE_Voice_Calling){
+                ArrayList<String> arList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS); //리스트는 꼬리에꼬리를 물고 데이터를 저장하는것 <> 는 A데이터 타입을 String 으로하겠다  Intent정보를 풀어서 가져옴
+                String str = arList.get(0);
+                if(str.equals("전화 걸기") == true){
+                    speakStr("누구에게 전화 걸까요");
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                   voiceRecog(CODE_Voice_Calling1);
+                }
 
+            }
+            else if(requestCode == CODE_Voice_Calling1){
+                ArrayList<String> arList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS); //리스트는 꼬리에꼬리를 물고 데이터를 저장하는것 <> 는 A데이터 타입을 String 으로하겠다  Intent정보를 풀어서 가져옴
+                Name = arList.get(0);
+                String inwoo = "안녕";
+                if(Name.equals(inwoo) == true){
+                    speakStr(Name +"에게 전화 걸까요?");
+                    voiceRecog(CODE_Voice_Calling2);
+                }
+            }
+            else if(requestCode == CODE_Voice_Calling3){
+                ArrayList<String> arList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS); //리스트는 꼬리에꼬리를 물고 데이터를 저장하는것 <> 는 A데이터 타입을 String 으로하겠다  Intent정보를 풀어서 가져옴
+                String str = arList.get(0);
+                if(str.equals("예")==true){
+                      String callname = getPhoneNumFromName(Name);
+                    Toast.makeText(getApplicationContext(), callname, Toast.LENGTH_SHORT).show();
+
+
+                      Intent intent = new  Intent(Intent.ACTION_CALL, Uri.parse(callname) );
+                      startActivity(intent);
+
+                }
             }
         }
 

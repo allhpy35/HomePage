@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
     <Button
@@ -33,7 +33,7 @@
         android:id="@+id/SMS"/>
     </LinearLayout>
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
     <Button
@@ -61,7 +61,10 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/VoiceRecord"/>
-
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -92,23 +95,33 @@
         android:text="BtnContact"
         android:id="@+id/BtnContact"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/TextVoice"
+            android:text="명령을 말하세요"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Voice_Calling"
         android:text="Voice_Calling"/>
 
+    </LinearLayout>
 
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/IvBitMap"
-        />
+
+
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/BtBitMap"
         android:text="BitMap 버튼"/>
+
+    <ImageView
+        android:id="@+id/IvBitMap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/alert_dark_frame" />
 </LinearLayout>

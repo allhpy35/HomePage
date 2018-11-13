@@ -26,6 +26,7 @@ public class BitMapRunable implements Runnable {
             IvBitMap.post(new Runnable() {
                 @Override
                 public void run() {
+                    IvBitMap.setImageBitmap(bitmap);
                 }
             });
         } catch (IOException e) {

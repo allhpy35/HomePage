@@ -124,4 +124,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/alert_dark_frame" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btToastPs"
+        android:text="btToastPs"/>
 </LinearLayout>

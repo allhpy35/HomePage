@@ -2,6 +2,7 @@ package com.example.user.hwang_10_02;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -29,11 +30,12 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {              //초기화를 하고 앞으로
-    protected Button btnHomepage, btnDial, btnCall, SMS, Map, Record, TTSBtn, EcoBtn, BtnContact, Voice_Calling, BtBitMap, btToastPs;
+    protected Button btnHomepage, btnDial, btnCall, SMS, Map, Record, TTSBtn, EcoBtn, BtnContact, Voice_Calling, BtBitMap, btToastPs, btnService;
     protected TextView TextView, VoiceRecord, TextVoice;
     protected EditText etTTs, EcoEdText;
     protected TextToSpeech tts;
     private static final int CODE_RECOG = 1234, CODE_ECORECO = 4321, CODE_CONTACT = 1243, CODE_Voice_Calling = 5656, CODE_Voice_Calling1 = 1111, CODE_Voice_Calling2 = 2222, CODE_Voice_Calling3 = 333;
+    protected boolean bService = false;
     public ImageView IvBitMap;
     protected String sBitmapUrI = "https://sites.google.com/site/yongheuicho/_/rsrc/1313446792839/config/customLogo.gif?revision=1", Name = " ";
     protected TelephonyManager telephonyManager;
@@ -169,7 +171,8 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         });
 
         telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        commStateListener = new CommStateListener();
+        commStateListener = new CommStateListener(telephonyManager,this);
+
         btToastPs = (Button) findViewById(R.id.btToastPs);
         btToastPs.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,7 +181,31 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
             }
         });
 
+        btnService = (Button)findViewById(R.id.btnService);
+        btnService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateService();
+            }
+        });
 
+
+
+
+    }
+
+    private void updateService() {
+        Intent intent = new Intent(this,phoneCallService.class);
+        if(bService){
+            stopService(intent);
+            bService=false;
+            btnService.setText("Start Svc");
+        }
+        else {
+            startService(intent);
+            bService = true;
+            btnService.setText("Stop Svc");
+        }
     }
 
     private void toastPhoneState() {
@@ -217,6 +244,8 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         }
         Toast.makeText(this, sPhoneType, Toast.LENGTH_SHORT).show();
         Toast.makeText(this, sNetworkType, Toast.LENGTH_SHORT).show();
+        int nRssi = commStateListener.nRssi;
+        Toast.makeText(this, "RSSI = " + nRssi, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -370,9 +399,12 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         super.onPause();
     }
 
-
-
-
+    @Override
+    protected void onDestroy() {
+        Intent intent = new Intent(this,phoneCallService.class);
+        stopService(intent);
+        super.onDestroy();
+    }
 }
 
 

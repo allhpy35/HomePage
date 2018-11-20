@@ -119,6 +119,7 @@
         android:id="@+id/BtBitMap"
         android:text="BitMap 버튼"/>
 
+
     <ImageView
         android:id="@+id/IvBitMap"
         android:layout_width="match_parent"
@@ -130,4 +131,12 @@
         android:layout_height="wrap_content"
         android:id="@+id/btToastPs"
         android:text="btToastPs"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnService"
+        android:text="서비스 시작"/>
+
+
 </LinearLayout>

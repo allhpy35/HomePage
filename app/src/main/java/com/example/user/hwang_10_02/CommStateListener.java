@@ -37,5 +37,19 @@ public class CommStateListener extends PhoneStateListener {
 
     }
 
-
+    @Override
+    public void onCallStateChanged(int state, String phoneNumber) {
+        super.onCallStateChanged(state, phoneNumber);
+        switch (state){
+            case TelephonyManager.CALL_STATE_RINGING:            //전화가 울리는상태
+                Toast.makeText(context, "Ringing"+phoneNumber, Toast.LENGTH_LONG).show();
+                break;
+            case TelephonyManager.CALL_STATE_OFFHOOK:           //엣날 전화기에서 안테나를 뽑는 행동을 하고 전화를 받아서 이러헤깅름지었다
+                Toast.makeText(context, "offhook"+phoneNumber, Toast.LENGTH_SHORT).show();
+            break;
+            case TelephonyManager.CALL_STATE_IDLE:
+                Toast.makeText(context, "Idle", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
 }

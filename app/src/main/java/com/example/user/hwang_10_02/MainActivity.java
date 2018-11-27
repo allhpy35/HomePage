@@ -7,6 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.hardware.SensorManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Handler;
@@ -27,11 +30,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {              //초기화를 하고 앞으로
-    protected Button btnHomepage, btnDial, btnCall, SMS, Map, Record, TTSBtn, EcoBtn, BtnContact, Voice_Calling, BtBitMap, btToastPs, btnService, btnLocation;
+    protected Button btnHomepage, btnDial, btnCall, SMS, Map, Record, TTSBtn, EcoBtn, BtnContact, Voice_Calling, BtBitMap, btToastPs, btnService, btnLocation, btgeo;
     protected TextView TextView, VoiceRecord, TextVoice;
     protected EditText etTTs, EcoEdText;
     protected TextToSpeech tts;
@@ -43,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
     protected CommStateListener commStateListener;
     protected LocationManager locationManager;
     protected MyLocationListener myLocationListener;
+    protected  double latitude, longitude, altitude;
+    protected SensorManager sensorManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,8 +79,8 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //     Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:01026530933"));
-                //     startActivity(intent);
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:01026530933"));
+                    startActivity(intent);
             }
         });
 
@@ -92,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         Map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:s36.321609,127.337957?z=20"));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:36.321609,127.337957?z=15"));
                 startActivity(intent);
 
             }
@@ -211,14 +218,44 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
             }
         });
 
+        btgeo = (Button)findViewById(R.id.btfindGeo);
+        btgeo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLocation();
+                speakLocation(latitude, longitude);
 
+            }
+        });
 
+    }
+
+    private void speakLocation(double latitude, double longitude){
+        Geocoder geocoder;
+        geocoder = new Geocoder(getApplicationContext(), Locale.KOREAN);
+        List<Address> lsAddress;
+        try {
+            lsAddress = geocoder.getFromLocation(latitude, longitude, 1);
+            String address = lsAddress.get(0).getAddressLine(0);
+            String city = lsAddress.get(0).getLocality();
+            String state = lsAddress.get(0).getAdminArea();
+            String country = lsAddress.get(0).getCountryName();
+            String postalCode = lsAddress.get(0).getPostalCode();
+            String knownName = lsAddress.get(0).getFeatureName();       //건물 정보 근처에있는 유명한 건물정보를 알려준다
+            speakStr("현재 있는 나라는 "+country+"입니다 현재 도시는 : "+city+ "입니다 현재 건물은 "+knownName+"입니다");
+
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:"+latitude+","+longitude+"?z=15"));    //"geo:s36.321609,127.337957?z=20"
+            startActivity(intent);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
     }
 
     private void showLocation() {
-        double latitude, longitude, altitude;
+
         latitude  = myLocationListener.latitude;
         longitude = myLocationListener.longitude;
         altitude = myLocationListener.altitude;
@@ -381,7 +418,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
                 String inwoo = "안녕";
                 if (Name.equals(inwoo) == true) {
                     speakStr(Name + "에게 전화 걸까요?");
-                    voiceRecog(CODE_Voice_Calling2);
+                    voiceRecog(CODE_Voice_Calling3);
                 }
             } else if (requestCode == CODE_Voice_Calling3) {
                 ArrayList<String> arList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS); //리스트는 꼬리에꼬리를 물고 데이터를 저장하는것 <> 는 A데이터 타입을 String 으로하겠다  Intent정보를 풀어서 가져옴
@@ -392,16 +429,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
 
                     Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(callname));
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                        // TODO: Consider calling
-                        //    ActivityCompat#requestPermissions
-                        // here to request the missing permissions, and then overriding
-                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                        //                                          int[] grantResults)
-                        // to handle the case where the user grants the permission. See the documentation
-                        // for ActivityCompat#requestPermissions for more details.
-                        return;
-                    }
+
                     startActivity(intent);
 
                 }

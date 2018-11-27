@@ -32,118 +32,134 @@
         android:text="SMS"
         android:id="@+id/SMS"/>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:orientation="horizontal">
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Map"
-        android:id="@+id/Map"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Voice"
-        android:id="@+id/Voice"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="결과"
-        android:id="@+id/TextView"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/Record"
-        android:text="Record"/>
-    </LinearLayout>
 
-    <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/VoiceRecord"/>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/editTTS"
-        android:text="TTS string"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TTS"
-        android:id="@+id/TTS"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Eco"
-        android:id="@+id/Eco"/>
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/EcoEdText"
-        android:text="2"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="BtnContact"
-        android:id="@+id/BtnContact"/>
-
-        <TextView
+        <Button
+            android:id="@+id/Map"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/TextVoice"
-            android:text="명령을 말하세요"/>
+            android:text="Map" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/Voice_Calling"
-        android:text="Voice_Calling"/>
+        <Button
+            android:id="@+id/Voice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Voice" />
+
+        <TextView
+            android:id="@+id/TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="결과" />
+
+        <Button
+            android:id="@+id/Record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Record" />
+
+        <TextView
+            android:id="@+id/VoiceRecord"
+            android:layout_width="wrap_content"
+            android:layout_height="31dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="91dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/editTTS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TTS string" />
+
+        <EditText
+            android:id="@+id/EcoEdText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2" />
+
+        <Button
+            android:id="@+id/TTS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TTS" />
+
+        <Button
+            android:id="@+id/Eco"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Eco" />
+
+        <Button
+            android:id="@+id/BtnContact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BtnContact" />
+
+        <TextView
+            android:id="@+id/TextVoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="명령을 말하세요" />
 
     </LinearLayout>
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/BtBitMap"
-        android:text="BitMap 버튼"/>
-
-
-    <ImageView
-        android:id="@+id/IvBitMap"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/alert_dark_frame" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btToastPs"
-        android:text="btToastPs"/>
+        <Button
+            android:id="@+id/BtBitMap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BitMap 버튼" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnService"
-        android:text="서비스 시작"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btLocation"
-        android:text="Location"/>
-</LinearLayout>
+
+        <ImageView
+            android:id="@+id/IvBitMap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/alert_dark_frame" />
+
+        <Button
+            android:id="@+id/btToastPs"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:text="btToastPs" />
+
+        <Button
+            android:id="@+id/btnService"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="서비스 시작" />
+
+        <Button
+            android:id="@+id/Voice_Calling"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Voice_Calling" />
+
+        <Button
+            android:id="@+id/btLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="Location" />
+
+        <Button
+            android:id="@+id/btfindGeo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="geoTTS" />
+    </LinearLayout>
 
 
 </LinearLayout>

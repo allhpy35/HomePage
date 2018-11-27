@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -49,7 +50,9 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
     protected LocationManager locationManager;
     protected MyLocationListener myLocationListener;
     protected  double latitude, longitude, altitude;
-    protected SensorManager sensorManager;
+    protected SensorManager sensorManager;  //센서를 관리하는 메니저
+    protected Sensor sensorAccel;           //가속센서     센서에서 받는 정보도 특별한 메시지라 이벤트리스너로 받아줘야한다
+    protected MySensorListener mySensorListener;        //센서 리스너, 센서 메니저, 센서,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -227,6 +230,14 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
             }
         });
+
+        sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        sensorAccel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mySensorListener = new MySensorListener(this);
+
+        if(sensorAccel != null){
+            sensorManager.registerListener(mySensorListener, sensorAccel, SensorManager.SENSOR_DELAY_NORMAL);           //센서의 정보가 mySensorListener에 쌓이게 된다
+        }
 
     }
 
@@ -464,6 +475,8 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
     protected void onDestroy() {
         Intent intent = new Intent(this,phoneCallService.class);
         stopService(intent);
+        sensorManager.unregisterListener(mySensorListener);
+
         super.onDestroy();
     }
 }

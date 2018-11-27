@@ -11,6 +11,7 @@ public class MySensorListener implements SensorEventListener {      //센서 이
   protected  Context context;
 
     public MySensorListener(Context context) {
+        this.context = context;
     }
 
     @Override
@@ -21,7 +22,7 @@ public class MySensorListener implements SensorEventListener {      //센서 이
             accelX = event.values[0];    //x 값
             accelY = event.values[1];    //y 값
             accelZ = event.values[2];    //z 값
-            Toast.makeText(context, "X = "+accelX+"Y = "+accelY+"Z ="+accelZ, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "X =  "+accelX+"     Y = "+accelY+"     Z ="+accelZ, Toast.LENGTH_SHORT).show();
         }
 
     }

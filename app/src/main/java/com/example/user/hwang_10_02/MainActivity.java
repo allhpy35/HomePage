@@ -473,8 +473,11 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
     @Override
     protected void onDestroy() {
-        Intent intent = new Intent(this,phoneCallService.class);
-        stopService(intent);
+        if(bService){
+            Intent intent = new Intent(this,phoneCallService.class);
+            stopService(intent);
+        }
+
         sensorManager.unregisterListener(mySensorListener);
 
         super.onDestroy();
